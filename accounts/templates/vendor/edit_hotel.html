@@ -1,0 +1,74 @@
+{% extends "utils/vendor_base.html" %}
+
+{% block start %}
+<div class="container mt-5 pt-5 pb-5">
+
+  <div class="col-6 mx-auto card shadow p-4" style="border: none">
+    <h2 class="mb-4">Edit Hotel</h2>
+
+    <p><strong>Editing:</strong> {{ hotel.hotel_name }}</p>
+
+    {% if hotel.bookings.all %}
+    <ul class="list-group mb-4">
+      {% for booking in hotel.bookings.all %}
+      <li class="list-group-item">
+        <strong>Start Date:</strong> {{ booking.booking_start_date }} |
+        <strong>End Date:</strong> {{ booking.booking_end_date }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="POST">
+      {% include "utils/alerts.html" %}
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Name</label>
+        <input type="text" name="hotel_name" value="{{ hotel.hotel_name }}" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Description</label>
+        <div class="form-floating">
+          <textarea name="hotel_description" id="flora" class="form-control" placeholder="Hotel description">{{ hotel.hotel_description }}</textarea>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Price</label>
+        <input type="number" name="hotel_price" value="{{ hotel.hotel_price }}" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Amenities</label>
+        <select name="ameneties" class="form-select" multiple>
+          {% for amenetie in ameneties %}
+          <option value="{{ amenetie.id }}" {% if amenetie in hotel.ameneties.all %}selected{% endif %}>
+            {{ amenetie.name }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Offer Price</label>
+        <input type="number" name="hotel_offer_price" value="{{ hotel.hotel_offer_price }}" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Location</label>
+        <input type="text" name="hotel_location" value="{{ hotel.hotel_location }}" class="form-control">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+
+<!-- Froala Editor Script -->
+<script>
+  new FroalaEditor('#flora');
+</script>
+
+{% endblock %}

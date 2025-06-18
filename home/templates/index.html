@@ -1,0 +1,56 @@
+{% extends "utils/base.html" %}
+
+{% block start %}
+
+<div class="container mt-5 pt-5 pb-5">
+  <div class="col-6 mx-auto mb-4">
+    <form class="d-flex">
+      <input type="text" name="search" class="form-control me-2" placeholder="Search">
+      <select class="form-control me-2" name="sort_by">
+        <option value="">Choose</option>
+        <option value="sort_low">Sort by Low to High</option>
+        <option value="sort_high">Sort by High to Low</option>
+      </select>
+      <button type="submit" class="btn btn-warning">Search</button>
+    </form>
+  </div>
+
+  <div class="row">
+    {% for hotel in hotels %}
+      <div class="col-md-3 mt-3">
+        <div class="card shadow" style="width: 18rem;">
+          <a href="{% url 'hotel_details' hotel.hotel_slug %}">
+            {% if hotel.hotel_images.first %}
+              <img src="{{ hotel.hotel_images.first.image.url }}" class="card-img-top" alt="Hotel Image">
+            {% else %}
+              <img src="https://media.istockphoto.com/id/104731717/photo/luxury-resort.jpg?s=612x612&w=0&k=20&c=cODMSPbYyrn1FHake1xYz9M8r15iOfGz9Aosy9Db7mI=" class="card-img-top" alt="Default Hotel Image">
+            {% endif %}
+          </a>
+
+          <div class="card-body">
+            <h5 class="card-title">{{ hotel.hotel_name }}</h5>
+            <p><strong>Phone:</strong> {{ hotel.hotel_owner.phone_number }}</p>
+
+            <p>
+              <strong>Price:</strong>
+              <span class="badge text-bg-danger">{{ hotel.hotel_price }}</span><br>
+              <strong>Offer:</strong>
+              <span class="badge text-bg-success">{{ hotel.hotel_offer_price }}</span>
+            </p>
+
+            <p>{{ hotel.hotel_location }}</p>
+
+            <div>
+              <strong>Amenities:</strong><br>
+              {% for amenity in hotel.ameneties.all %}
+                <span class="badge text-bg-primary">{{ amenity.name }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

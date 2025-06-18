@@ -1,0 +1,50 @@
+{% extends "utils/vendor_base.html" %}
+
+{% block start %}
+<div class="container mt-5 pt-5 pb-5">
+  <div class="col-6 mx-auto card shadow p-4" style="border:none">
+    <h2>Add Hotel</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+      {% include "utils/alerts.html" %}
+
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Hotel Name</label>
+        <input type="text" name="hotel_name" class="form-control" id="exampleInputEmail1">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Description</label>
+        <textarea name="hotel_description" class="form-control" placeholder="Enter description" id="floatingTextarea"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Price</label>
+        <input type="number" name="hotel_price" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Offer Price</label>
+        <input type="number" name="hotel_offer_price" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Location</label>
+        <input type="text" name="hotel_location" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Hotel Amenities</label>
+        <select name="ameneties" class="form-select form-select-sm" multiple aria-label="Select amenities">
+          {% for amenetie in ameneties %}
+            <option value="{{ amenetie.id }}">{{ amenetie.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
